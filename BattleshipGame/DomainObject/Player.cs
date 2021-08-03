@@ -37,6 +37,7 @@ namespace BattleshipGame.DomainObjects
 
         public MoveOutcome NextMove(Coordinates coordinates)
         {
+            //check on gameboard do we have a coordinate which coincides with requestCoordinate and if it does then return MoveOutcome.Hit else MoveOutcome.Miss 
             //ScoreBoard.Moves
             return MoveOutcome.Miss;
         }

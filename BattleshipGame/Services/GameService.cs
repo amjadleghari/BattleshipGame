@@ -84,16 +84,14 @@ namespace BattleshipGame.Services
 
             //for GameUID, PlayerUID and ShipUID populate battleship.coordinates field and add battleship to gameboard.battleshipplacement list field.
 
-            Game game = await GetGameById(request.GameGUID);
-
             Player player = await _gameRepository.GetPlayerByGameIdAndPlayerId(request.GameGUID, request.PlayerGUID);
 
             Battleship battleship = await _gameRepository.GetBattleshipByPlayerIdAndShipId(request.GameGUID, request.PlayerGUID, request.BattleshipGUID);
-            battleship.Placement = battleship.GenerateBattleshipCoordinates(request.Coordinates);
+            battleship.BattleshipPlacement(request.Coordinates);
             retVal.IsPlacementSuccessful = false;
             retVal.Battleship = battleship;
 
-            if (battleship.Placement != null)
+            if (battleship.Placement.Count > 0)
             {
                 player.GameBoard.BattleshipPlacements.Add(battleship);
                 retVal.IsPlacementSuccessful = true;

@@ -16,7 +16,9 @@ namespace BattleshipGame.Entities
         [Description("Hit")]
         Hit,
         [Description("Miss")]
-        Miss
+        Miss,
+        [Description("UnHarmed")]
+        UnHarmed
     }
 
     public enum ErrorMessages
