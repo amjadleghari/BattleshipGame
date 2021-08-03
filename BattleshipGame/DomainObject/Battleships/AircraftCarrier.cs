@@ -13,7 +13,8 @@ namespace BattleshipGame.DomainObjects.Battleships
             Name = "Aircraft Carrier";
             Width = 2;
             Length = 5;
-            Placement = new List<(Coordinates, MoveOutcome)>();
+            ShipAlignment = Alignment.Horizontal;
+            Placement = new List<(Coordinates, string)>();
         }
     }
 }

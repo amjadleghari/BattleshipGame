@@ -5,10 +5,10 @@ namespace BattleshipGame.Entities
 {
     public enum Alignment
     {
-        [EnumMember(Value = "Vertical")]
-        V,
-        [EnumMember(Value = "Horizontal")]
-        H
+        [Description("Vertical")]
+        Vertical,
+        [Description("Horizontal")]
+        Horizontal
     }
 
     public enum MoveOutcome

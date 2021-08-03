@@ -18,7 +18,7 @@ namespace BattleshipGame.DomainObjects
 
         public List<Battleship> Battleships { get; set; }
 
-        public Player(string name)
+        public Player(string name, bool turn)
         {
             GUID = Guid.NewGuid();
             Name = name;
@@ -32,8 +32,10 @@ namespace BattleshipGame.DomainObjects
             };
             GameBoard = new GameBoard();
             ScoreBoard = new ScoreBoard();
-
+            IsItMyTurn = turn;
         }
+
+        public bool IsItMyTurn { get; set; }
 
         public MoveOutcome NextMove(Coordinates coordinates)
         {

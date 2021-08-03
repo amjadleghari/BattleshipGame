@@ -17,11 +17,11 @@ namespace BattleshipGame.DomainObjects.Battleships
 
         public Alignment ShipAlignment { get; set;}
 
-        public List<(Coordinates, MoveOutcome)> Placement { get; set; }
+        public List<(Coordinates, string)> Placement { get; set; }
 
         public bool IsDestroyed()
         {
-            bool retVal = Placement.TrueForAll(item => item.Item2 == MoveOutcome.Hit);
+            bool retVal = Placement.TrueForAll(item => item.Item2.Equals(MoveOutcome.Hit.ToString()));
             return retVal;
         }
 
@@ -31,11 +31,12 @@ namespace BattleshipGame.DomainObjects.Battleships
 
             if (!IsDestroyed())
             {
-                var index = Placement.FindIndex(item => item.Item1 == coordinates);
+                var index = Placement.FindIndex(item => item.Item1.XCoordinate == coordinates.XCoordinate && item.Item1.YCoordinate == coordinates.YCoordinate);
 
                 if (index != -1)
                 {
-                    Placement[index] = (coordinates, MoveOutcome.Hit);
+                    Placement[index] = (coordinates, MoveOutcome.Hit.ToString());
+                    retVal = true;
                 }
             }
 
@@ -46,35 +47,40 @@ namespace BattleshipGame.DomainObjects.Battleships
         {
             bool retVal = true;
 
-            Placement.Add((originationCoordinates,MoveOutcome.UnHarmed));
             int X = originationCoordinates.XCoordinate;
             int Y = originationCoordinates.YCoordinate;
             bool IsOutofBound = false;
 
-            if (ShipAlignment == Alignment.H)
+            if (ShipAlignment == Alignment.Horizontal)
             {
-                for (int counter = Y; counter < Length; counter++)
+                for (int lengthCounter = Y; lengthCounter < Length + Y; lengthCounter++)
                 {
-                    if (counter > 10)
+                    for (int widthCounter = 0; widthCounter < Width; widthCounter++)
                     {
-                        IsOutofBound = true;
-                        break;
+                        if (lengthCounter > 10 || (X + widthCounter) > 10)
+                        {
+                            IsOutofBound = true;
+                            break;
+                        }
+                        else
+                            Placement.Add((new Coordinates(X + widthCounter, lengthCounter), MoveOutcome.UnHarmed.ToString()));
                     }
-                    else
-                        Placement.Add((new Coordinates(X, counter), MoveOutcome.UnHarmed));
                 }
             }
-            else if (ShipAlignment == Alignment.V)
+            else if (ShipAlignment == Alignment.Vertical)
             {
-                for (int counter = X; counter < Length; counter++)
+                for (int lengthCounter = X; lengthCounter < Length + X; lengthCounter++)
                 {
-                    if (counter > 10)
+                    for (int widthCounter = 0; widthCounter < Width; widthCounter++)
                     {
-                        IsOutofBound = true;
-                        break;
+                        if (lengthCounter > 10 || (Y + widthCounter) > 10)
+                        {
+                            IsOutofBound = true;
+                            break;
+                        }
+                        else
+                            Placement.Add((new Coordinates(lengthCounter, Y + widthCounter), MoveOutcome.UnHarmed.ToString()));
                     }
-                    else
-                        Placement.Add((new Coordinates(counter, Y), MoveOutcome.UnHarmed));
                 }
             }
 

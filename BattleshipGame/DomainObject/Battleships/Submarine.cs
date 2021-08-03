@@ -13,7 +13,8 @@ namespace BattleshipGame.DomainObjects.Battleships
             Name = "Submarine";
             Width = 1;
             Length = 3;
-            Placement = new List<(Coordinates, MoveOutcome)>();
+            ShipAlignment = Alignment.Horizontal;
+            Placement = new List<(Coordinates, string)>();
         }
     }
 }

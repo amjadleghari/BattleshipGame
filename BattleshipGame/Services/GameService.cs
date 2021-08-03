@@ -80,24 +80,34 @@ namespace BattleshipGame.Services
 
         public async Task<PositionBattleshipResponse> PositionBattleship(PositionBattleshipRequest request)
         {
-            PositionBattleshipResponse retVal = new PositionBattleshipResponse();
-
-            //for GameUID, PlayerUID and ShipUID populate battleship.coordinates field and add battleship to gameboard.battleshipplacement list field.
-
-            Player player = await _gameRepository.GetPlayerByGameIdAndPlayerId(request.GameGUID, request.PlayerGUID);
-
-            Battleship battleship = await _gameRepository.GetBattleshipByPlayerIdAndShipId(request.GameGUID, request.PlayerGUID, request.BattleshipGUID);
-            battleship.BattleshipPlacement(request.Coordinates);
-            retVal.IsPlacementSuccessful = false;
-            retVal.Battleship = battleship;
-
-            if (battleship.Placement.Count > 0)
+            try
             {
-                player.GameBoard.BattleshipPlacements.Add(battleship);
-                retVal.IsPlacementSuccessful = true;
-            }
+                var validator = new PositionBattleshipRequestValidation();
+                validator.ValidateAndThrow(request);
 
-            return retVal;
+                PositionBattleshipResponse retVal = new PositionBattleshipResponse();
+
+                Player player = await _gameRepository.GetPlayerByGameIdAndPlayerId(request.GameGUID, request.PlayerGUID);
+
+                Battleship battleship = await _gameRepository.GetBattleshipByPlayerIdAndShipId(request.GameGUID, request.PlayerGUID, request.BattleshipGUID);
+                
+                retVal.IsPlacementSuccessful = battleship.BattleshipPlacement(request.Coordinates); 
+                retVal.Battleship = battleship;
+
+                if (retVal.IsPlacementSuccessful && battleship.Placement.Count > 0)
+                {
+                    player.GameBoard.BattleshipPlacements.Add(battleship);
+                    player.Battleships.Remove(battleship);
+                    retVal.IsPlacementSuccessful = true;
+                }
+
+                return retVal;
+            }
+            catch (ValidationException ex)
+            {
+                _logger.LogError($"PositionBattleship failed with error: {ex.Message}");
+                throw new GenericBusinessException(ex.Message);
+            }
         }
 
     }

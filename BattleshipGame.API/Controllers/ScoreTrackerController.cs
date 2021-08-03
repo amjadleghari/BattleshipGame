@@ -28,7 +28,6 @@ namespace BattleshipGame.API.Controllers
         }
 
         
-
         [HttpPost("Attack")]
         public async Task<ActionResult<ApiResult<AttackResponse>>> Attack(AttackRequest request)
         {

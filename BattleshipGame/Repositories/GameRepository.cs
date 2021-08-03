@@ -48,10 +48,10 @@ namespace BattleshipGame.Repositories
             try
             {
                 Game game = await GetGameById(gameGUID);
-                retVal = (game.Player1.GUID.Equals(playerGUID)
+                retVal = (game.Player1.GUID.ToString().Equals(playerGUID)
                     ? game.Player1
                     : (
-                        game.Player2.GUID.Equals(playerGUID)
+                        game.Player2.GUID.ToString().Equals(playerGUID)
                         ? game.Player2
                         : null
                         )
@@ -79,8 +79,8 @@ namespace BattleshipGame.Repositories
             _gameRepository.Add(
                 new Game
                 {
-                    Player1 = new Player(player1Name),
-                    Player2 = new Player(player2Name)
+                    Player1 = new Player(player1Name, true),
+                    Player2 = new Player(player2Name, false)
                 }
                 );
             return await Task.FromResult<Game>(_gameRepository[_gameRepository.Count - 1]);
