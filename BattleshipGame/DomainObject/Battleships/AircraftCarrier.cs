@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using BattleshipGame.DomainObjects.Boards;
+using BattleshipGame.Entities;
 
 namespace BattleshipGame.DomainObjects.Battleships
 {
@@ -10,7 +13,7 @@ namespace BattleshipGame.DomainObjects.Battleships
             Name = "Aircraft Carrier";
             Width = 2;
             Length = 5;
-
+            Placement = new List<(Coordinates, MoveOutcome)>();
         }
     }
 }

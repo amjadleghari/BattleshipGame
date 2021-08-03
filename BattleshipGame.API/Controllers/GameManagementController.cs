@@ -28,11 +28,7 @@ namespace BattleshipGame.API.Controllers
             _gameService = gameService;
         }
 
-        /// 1). Call to create new game by mentioning both player names. It will create or update Player information which includes mentioning player name.
-        /// 2). Call to place battleship on gameboard. using gameid and playerid as reference. Do validation if all ships are already placed.
-        /// 3). Whose move which returns next player name.
-        ///
-        // create and use following CreateGameRequest(player1name, player2name) and CreateGameResponse(gameGUID, Player1GUID, player1shipGUID, player2GUID, player2shipsGUID) objects
+       
         [HttpPost("CreateGame")]
         public async Task<ActionResult<ApiResult<CreateGameResponse>>> CreateGame(CreateGameRequest request)
         {
@@ -129,7 +125,6 @@ namespace BattleshipGame.API.Controllers
             }
         }
 
-        //Create and use BattleshipPlacementRequest(gameGUID, playerGUID, battleshipGUID, Coordinates(x,y)) and BattleshipResponse
         [HttpPost("PositionBattleship")]
         public async Task<ActionResult<ApiResult<PositionBattleshipResponse>>> PositionBattleship(PositionBattleshipRequest request)
         {

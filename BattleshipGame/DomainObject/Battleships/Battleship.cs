@@ -17,17 +17,36 @@ namespace BattleshipGame.DomainObjects.Battleships
 
         public Alignment ShipAlignment { get; set;}
 
-        public List<Coordinates> Placement { get; set; }
+        public List<(Coordinates, MoveOutcome)> Placement { get; set; }
 
         public bool IsDestroyed()
         {
-            return false;
+            bool retVal = Placement.TrueForAll(item => item.Item2 == MoveOutcome.Hit);
+            return retVal;
         }
 
-        public List<Coordinates> GenerateBattleshipCoordinates(Coordinates originationCoordinates)
+        public bool IsHit(Coordinates coordinates)
         {
-            List<Coordinates> battleshipCoordinate = new List<Coordinates>();
-            battleshipCoordinate.Add(originationCoordinates);
+            bool retVal = false;
+
+            if (!IsDestroyed())
+            {
+                var index = Placement.FindIndex(item => item.Item1 == coordinates);
+
+                if (index != -1)
+                {
+                    Placement[index] = (coordinates, MoveOutcome.Hit);
+                }
+            }
+
+            return retVal;
+        }
+
+        public bool BattleshipPlacement(Coordinates originationCoordinates)
+        {
+            bool retVal = true;
+
+            Placement.Add((originationCoordinates,MoveOutcome.UnHarmed));
             int X = originationCoordinates.XCoordinate;
             int Y = originationCoordinates.YCoordinate;
             bool IsOutofBound = false;
@@ -42,7 +61,7 @@ namespace BattleshipGame.DomainObjects.Battleships
                         break;
                     }
                     else
-                        battleshipCoordinate.Add(new Coordinates(X, counter));
+                        Placement.Add((new Coordinates(X, counter), MoveOutcome.UnHarmed));
                 }
             }
             else if (ShipAlignment == Alignment.V)
@@ -55,14 +74,14 @@ namespace BattleshipGame.DomainObjects.Battleships
                         break;
                     }
                     else
-                        battleshipCoordinate.Add(new Coordinates(counter, Y));
+                        Placement.Add((new Coordinates(counter, Y), MoveOutcome.UnHarmed));
                 }
             }
 
             if (IsOutofBound)
-                battleshipCoordinate = null;
+                retVal = false;
 
-            return battleshipCoordinate;
+            return retVal;
         }
     }
 }
