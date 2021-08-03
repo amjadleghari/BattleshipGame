@@ -17,6 +17,7 @@ Implementation of the classic paper pencil guessing game. Each player has a ten 
 - Game will not proceed until and unless all battleship pieces are placed on the Gameboard
 - Each player have gameboard which captures battleship placements. and scoreboard which keep track of player moves and there outcome.
 - customised error messages
+- in-memory data persistence
 
 # Deployment Link
 https://battleshipgame-api.azurewebsites.net/swagger/index.html
