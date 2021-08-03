@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="FluentValidation" Version="10.3.0" />
+    <PackageReference Include="NLog" Version="4.7.10" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.13.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BattleshipGame\BattleshipGame.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="FluentValidation" />
+    <None Remove="NLog" />
+    <None Remove="NLog.Web.AspNetCore" />
+    <None Remove="Swashbuckle.AspNetCore.Annotations" />
+    <None Remove="Microsoft.AspNetCore.Mvc.Versioning" />
+  </ItemGroup>
+</Project>
